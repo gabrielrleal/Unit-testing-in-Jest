@@ -1,4 +1,4 @@
-const getPeople =  require('./script')
+const {getPeople, isCity} =  require('./script')
 const fetch = require('node-fetch')
 
 test('calls swapi to get people with a promise', () => {
@@ -43,4 +43,15 @@ test('test getPeople with dependency injection', () => {
             expect(mockFetch).toHaveBeenCalledWith('https://swapi.dev/api/people')
             expect(data.count).toEqual(87)
         })
+})
+
+let db = []
+const initDb = () => db = ['Vienna', 'Londom', 'San Juan', 'Medlin']
+const closeDb = () => db = []
+
+beforeEach(()=> initDb())
+afterEach(() => closeDb())
+
+test('city db has Vienna', () => {
+    expect(isCity('Vienna', db)).toBeTruthy()
 })
